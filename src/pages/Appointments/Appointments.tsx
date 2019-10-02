@@ -12,6 +12,7 @@ import {
   Appointment
 } from "./Appointments.styles";
 import { format } from "date-fns";
+import FilterButton from "../../components/FilterButton/FilterButton";
 
 const Appointments: React.FC<RouteComponentProps & Testable> = ({
   testid = "Appointments"
@@ -33,6 +34,10 @@ const Appointments: React.FC<RouteComponentProps & Testable> = ({
   return (
     <AppointmentsContainer>
       <AppointmentsHeader>Your Appointments</AppointmentsHeader>
+      <FilterButton selected={true} label={'pending'} />
+      <FilterButton selected={false} label={'approved'} />
+      <FilterButton selected={true} label={'in progress'} />
+      <FilterButton selected={false} label={'finalized'} />
       <UserContext.Consumer>
         {(userData): JSX.Element[] | JSX.Element => {
           if (!userData) return <Redirect to="/" />;
