@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Appointments from "./pages/Appointments/Appointments";
+import Signup from "./pages/Signup/Signup";
 import { signIn } from "./api";
 import Header from "./components/Header/Header";
 import PageContainer from "./universalStyles/PageContainer";
@@ -42,6 +43,7 @@ const App: React.FC = () => {
         <PageContainer>
           <Header />
           <Switch>
+            <Route path="/signup" component={Signup} />
             <Route path="/appointments" component={Appointments} />
             <Route
               exact

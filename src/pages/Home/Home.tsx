@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 import {
   Button,
@@ -110,6 +111,9 @@ const Home: React.FC<RouteComponentProps & Props & Testable> = ({
           );
         }}
       </UserContext.Consumer>
+      <Link to="/signup">
+        Sign Up
+      </Link>
     </CenteredContainer>
   );
 };
