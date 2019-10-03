@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const AppointmentsContainer = styled.div`
   display: block;
-  margin: auto;
+  margin:  2rem auto;
+  min-width: 514px;
 `;
 
 export const AppointmentsHeader = styled.h1``;
