@@ -8,6 +8,7 @@ import {
 } from "./constants/requestPaths";
 import getUserAppointments from "./getUserAppointments/getUserAppointments";
 import signIn from "./signIn/signIn";
+import signUp from "./signUp/signUp";
 
 export {
   APPOINTMENTS_PATH,
@@ -15,6 +16,7 @@ export {
   getUserAppointments,
   getUserAppointmentsPath,
   signIn,
+  signUp,
   SIGN_IN_PATH,
   SIGN_UP_PATH,
   USERS_PATH
