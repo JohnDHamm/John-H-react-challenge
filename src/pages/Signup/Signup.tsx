@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
 import { UserContext } from "../../App";
 import {
@@ -27,7 +27,7 @@ interface Props {
 }
 
 const Signup: React.FC<RouteComponentProps & Props & Testable> = ({
-  signupSubmissionErrors,
+  signupSubmissionErrors, //TODO: use for checking for duplicate username already registered
   onSignupFormSubmit,
   testid = "Signup"
 }) => {
@@ -36,6 +36,7 @@ const Signup: React.FC<RouteComponentProps & Props & Testable> = ({
   const [username, setUsername] = useState<string | undefined>();
   const [password, setPassword] = useState<string | undefined>();
   const [formErrors, setFormErrors] = useState<FormErrors | undefined>();
+  const [passwordError, setPasswordError] = useState<boolean>(false);
 
   const validateFields = (): FormErrors => {
     const errors: FormErrors = {};
@@ -59,7 +60,19 @@ const Signup: React.FC<RouteComponentProps & Props & Testable> = ({
     onSignupFormSubmit({ username, password });
   };
 
-  const hasFormError = (): boolean => signupSubmissionErrors && !formErrors;
+  //TODO: use hasFormError in future when checking for already existing username
+  // const hasFormError = (): boolean => signupSubmissionErrors && !formErrors;
+
+  const validatePassword = (password: string) => {
+    console.log('password', password);
+    console.log("test:", /(?=.*\d)(?=.*[\W_])(?=(.*[A-Z]){2})/.test(password))
+    if (!/(?=.*\d)(?=.*[\W_])(?=(.*[A-Z]){2})/.test(password)) {
+      setPassword(password);
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+  }
 
   return (
     <CenteredContainer data-testid={testid}>
@@ -86,21 +99,26 @@ const Signup: React.FC<RouteComponentProps & Props & Testable> = ({
                   type="text"
                 />
               </UsernameFormControl>
-              <PasswordFormControl formError={hasFormError()}>
+              {/* {hasFormError() && (
+                <p style={{ color: "red", fontSize: "1rem", marginTop: "0" }}>
+                  That username is already taken, please choose another.
+                </p>
+              )} */}
+              <PasswordFormControl formError={passwordError}>
                 <Label htmlFor="password">Password</Label>
                 <Input
                   id="password"
                   inputError={formErrors && formErrors.password ? true : false}
                   onChange={({ target: { value: password } }): void =>
-                    setPassword(password)
+                    validatePassword(password)
                   }
                   data-testid={subTestid("PasswordInput")}
                   type="text"
                 />
               </PasswordFormControl>
-              {hasFormError() && (
+              {passwordError && (
                 <p style={{ color: "red", fontSize: "1rem", marginTop: "0" }}>
-                  Your username or password is incorrect.
+                  Password must contain at least 1 number, 1 symbol, and 2 capital letters.
                 </p>
               )}
               <Button data-testid={subTestid("SubmitButton")} type="submit">
