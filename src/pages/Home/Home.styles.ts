@@ -1,4 +1,15 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+export const HomeContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
 
 export const Form = styled.form`
   border: 1px solid #aaa;
@@ -42,6 +53,26 @@ export const Label = styled.label`
 `;
 
 export const Button = styled.button`
+  background-color: #333;
+  border: 0;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+
+  &:hover {
+    background-color: #555;
+  }
+`;
+
+export const SignupMessage = styled.p`
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #555;
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
   background-color: #333;
   border: 0;
   color: #fff;

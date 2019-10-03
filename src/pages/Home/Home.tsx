@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Redirect, RouteComponentProps } from "react-router";
-import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 import {
+  HomeContainer,
   Button,
   Form,
   Heading,
   Input,
   Label,
   PasswordFormControl,
-  UsernameFormControl
+  UsernameFormControl,
+  SignupMessage,
+  StyledLink
 } from "./Home.styles";
 import { subTestidInit } from "../../utils";
-import CenteredContainer from "../../universalStyles/CenteredContainer";
 
 interface FormErrors {
   password?: string;
@@ -63,7 +64,7 @@ const Home: React.FC<RouteComponentProps & Props & Testable> = ({
   const hasFormError = (): boolean => loginSubmissionErrors && !formErrors;
 
   return (
-    <CenteredContainer data-testid={testid}>
+    <HomeContainer data-testid={testid}>
       <UserContext.Consumer>
         {(user): JSX.Element => {
           if (user) return <Redirect to="/appointments" />;
@@ -111,10 +112,13 @@ const Home: React.FC<RouteComponentProps & Props & Testable> = ({
           );
         }}
       </UserContext.Consumer>
-      <Link to="/signup">
+      <SignupMessage>
+        Not registered yet?
+      </SignupMessage>
+      <StyledLink to="/signup">
         Sign Up
-      </Link>
-    </CenteredContainer>
+      </StyledLink>
+    </HomeContainer>
   );
 };
 
