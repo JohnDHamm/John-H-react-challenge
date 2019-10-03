@@ -115,7 +115,7 @@ const Home: React.FC<RouteComponentProps & Props & Testable> = ({
       <SignupMessage>
         Not registered yet?
       </SignupMessage>
-      <StyledLink to="/signup">
+      <StyledLink data-testid={subTestid("SignupButton")} to="/signup">
         Sign Up
       </StyledLink>
     </HomeContainer>
