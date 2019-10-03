@@ -12,7 +12,7 @@ import {
   Appointment
 } from "./Appointments.styles";
 import { format } from "date-fns";
-import FilterButton from "../../components/FilterButton/FilterButton";
+import Filters from "../../components/Filters/Filters";
 
 const Appointments: React.FC<RouteComponentProps & Testable> = ({
   testid = "Appointments"
@@ -21,6 +21,9 @@ const Appointments: React.FC<RouteComponentProps & Testable> = ({
     AppointmentCollection | undefined
   >();
   const [user, setUser] = useState<UserInterface | undefined>();
+  const [activeFilters, setActiveFilters] = useState(['pending', 'approved', 'in progress', 'finalized'])
+  const [filteredAppointments, setFilteredAppointments] = useState<
+    AppointmentCollection | undefined>();
 
   useEffect((): void => {
     if (user)
@@ -31,20 +34,44 @@ const Appointments: React.FC<RouteComponentProps & Testable> = ({
         .catch(e => console.error(e));
   }, [user]);
 
+  useEffect((): void => {
+    filterAppointments();
+  });
+
+  const updateFilters = (selection: string) => {
+    let newFilters: Array<string> = [...activeFilters];
+    if (activeFilters.includes(selection)) {
+      newFilters.splice(newFilters.indexOf(selection), 1);
+    } else {
+      newFilters.push(selection);
+    }
+    setActiveFilters(newFilters);
+  }
+
+  const filterAppointments = () => {
+    if (appointments) {
+      const filteredAppts = [...appointments].filter(
+        appt => activeFilters.includes(appt.status));
+      setFilteredAppointments(filteredAppts)
+    }
+  }
+
   return (
     <AppointmentsContainer>
       <AppointmentsHeader>Your Appointments</AppointmentsHeader>
-      <FilterButton selected={true} label={'pending'} />
-      <FilterButton selected={false} label={'approved'} />
-      <FilterButton selected={true} label={'in progress'} />
-      <FilterButton selected={false} label={'finalized'} />
+      {activeFilters &&
+        <Filters
+          activeFilters={activeFilters}
+          onChange={(selection: string) => updateFilters(selection)}
+          />
+      }
       <UserContext.Consumer>
         {(userData): JSX.Element[] | JSX.Element => {
           if (!userData) return <Redirect to="/" />;
           if (!user) setUser(userData);
 
-          if (appointments)
-            return appointments.map(
+          if (filteredAppointments)
+            return filteredAppointments.map(
               (appointment): JSX.Element => (
                 <Appointment key={appointment.id}>
                   <Type>Type: {appointment.chore}</Type>

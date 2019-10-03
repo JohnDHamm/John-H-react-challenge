@@ -10,4 +10,9 @@ export const Button = styled.div`
     border-radius: 5px;
     border-color: ${(props: {selected: boolean}): string => getColor(props.selected)};
     color: ${(props: {selected: boolean}): string => getColor(props.selected)};
+
+    :hover {
+        cursor: pointer;
+        border-color: blue;
+    }
 `;
