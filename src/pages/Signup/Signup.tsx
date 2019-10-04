@@ -57,6 +57,8 @@ const Signup: React.FC<RouteComponentProps & Props & Testable> = ({
       return setFormErrors(errors);
     }
 
+    if (passwordError) return;
+
     onSignupFormSubmit({ username, password });
   };
 
@@ -64,8 +66,6 @@ const Signup: React.FC<RouteComponentProps & Props & Testable> = ({
   // const hasFormError = (): boolean => signupSubmissionErrors && !formErrors;
 
   const validatePassword = (password: string) => {
-    console.log('password', password);
-    console.log("test:", /(?=.*\d)(?=.*[\W_])(?=(.*[A-Z]){2})/.test(password))
     if (!/(?=.*\d)(?=.*[\W_])(?=(.*[A-Z]){2})/.test(password)) {
       setPassword(password);
       setPasswordError(true);
