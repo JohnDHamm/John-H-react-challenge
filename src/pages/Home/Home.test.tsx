@@ -1,5 +1,6 @@
 import React from "react";
 import Home from "./Home";
+import Signup from "../Signup/Signup";
 import { render, fireEvent } from "@testing-library/react";
 import { MemoryRouter, Route } from "react-router-dom";
 import { subTestidInit } from "../../utils";
@@ -61,6 +62,7 @@ describe("Home", (): void => {
       expect(getByTestId(subTestid("UsernameInput"))).toBeInTheDocument();
       expect(getByTestId(subTestid("PasswordInput"))).toBeInTheDocument();
       expect(getByTestId(subTestid("SubmitButton"))).toBeInTheDocument();
+      expect(getByTestId(subTestid("SignupButton"))).toBeInTheDocument();
     });
 
     it("should display an error message if 'loginSubmissionErrors' is true", (): void => {
@@ -156,5 +158,30 @@ describe("Home", (): void => {
       expect(onLoginFormSubmit).toHaveBeenCalledTimes(1);
       expect(onLoginFormSubmit).toHaveBeenCalledWith({ username, password });
     });
+
+    it("should redirect to the sign-up form page when the sign up button is clicked", (): void => {
+      mockContext.mockReturnValue(null);
+      const onSignupFormSubmit = jest.fn();
+
+      const { getByTestId } = render(
+        <MemoryRouter initialEntries={["/"]}>
+          <Route exact path="/" component={Home} />
+          <Route
+            exact
+            path="/signup"
+            render={(props): JSX.Element => (
+              <Signup 
+                {...props}
+                signupSubmissionErrors={false}
+                onSignupFormSubmit={onSignupFormSubmit}
+              />
+            )}
+          />
+        </MemoryRouter>
+      );
+
+      fireEvent.click(getByTestId(subTestid("SignupButton")));
+      expect(getByTestId("Signup-SubmitButton")).toBeInTheDocument();
+    })
   });
 });

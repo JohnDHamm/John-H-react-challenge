@@ -4,13 +4,13 @@ import { SIGN_IN_PATH } from "../constants/requestPaths";
 
 describe("signIn()", (): void => {
   it("should post to the sign in api path", (): void => {
-    const axiosPost = jest.fn();
-    Axios.post = axiosPost;
+    const axiosGet = jest.fn();
+    Axios.get = axiosGet;
 
     signIn("test", "test");
 
-    expect(axiosPost).toHaveBeenCalled();
-    expect(axiosPost).toHaveBeenCalledWith(
+    expect(axiosGet).toHaveBeenCalled();
+    expect(axiosGet).toHaveBeenCalledWith(
       `${SIGN_IN_PATH}?username=test&password=test`
     );
   });

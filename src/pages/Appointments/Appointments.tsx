@@ -12,11 +12,13 @@ import {
   Appointment
 } from "./Appointments.styles";
 import { format } from "date-fns";
+import { subTestidInit } from "../../utils";
 import Filters from "../../components/Filters/Filters";
 
 const Appointments: React.FC<RouteComponentProps & Testable> = ({
   testid = "Appointments"
 }) => {
+  const subTestid = subTestidInit(testid);
   const [appointments, setAppointments] = useState<
     AppointmentCollection | undefined
   >();
@@ -57,7 +59,7 @@ const Appointments: React.FC<RouteComponentProps & Testable> = ({
   }
 
   return (
-    <AppointmentsContainer>
+    <AppointmentsContainer data-testid={testid}>
       <AppointmentsHeader>Your Appointments</AppointmentsHeader>
       {activeFilters &&
         <Filters
@@ -73,7 +75,7 @@ const Appointments: React.FC<RouteComponentProps & Testable> = ({
           if (filteredAppointments)
             return filteredAppointments.map(
               (appointment): JSX.Element => (
-                <Appointment key={appointment.id}>
+                <Appointment data-testid={subTestid("Appointment")} key={appointment.id}>
                   <Type>Type: {appointment.chore}</Type>
                   <Date>{format(appointment.date, "Do MMMM YYYY")}</Date>
                   <Status>
